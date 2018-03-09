@@ -1,35 +1,49 @@
+console.log('content.js');
 chrome.runtime.sendMessage({
     from: 'content',
     subject: 'showPageAction'
+});
+
+function getPointsFromRow(row, grades) {
+
+    var category = row.childNodes[3].innerText;
+
+    if(grades[category] === undefined) {
+        grades[category] = {
+            pointsReceived: 0,
+            totalPoints: 0
+        };
+    }
+
+    var gradeStr = row.childNodes[23].innerText;
+
+    var pointsReceived;
+    var totalPoints;
+
+    // "20/20" -> ["20", "20"]
+    var splitGrades = gradeStr.split('/');
+
+    if(splitGrades[0] === "--") {
+        grades[category].pointsReceived += 0;
+        grades[category].totalPoints += 0;
+    }
+    else {
+        grades[category].pointsReceived += parseInt(splitGrades[0]);
+        grades[category].totalPoints += parseInt(splitGrades[1]);
+    }
 }
-);
+
+function getRows() {
+    var rows = document.querySelectorAll("tr[data-ng-repeat-start='studentAssignment in studentAssignmentScoresCtrlData.studentAssignments']");
+
+    return rows;
+}
 
 function getGrades() {
-    var gradesStr = document.querySelectorAll("span[data-ng-if*='studentAssignment._']");
+    var grades = {};
+    getRows().forEach(row => getPointsFromRow(row, grades));
 
-    var points = 0;
-    var totalPoints = 0;
-
-    gradesStr.forEach(function(elem) {
-        gradeStr = elem.textContent;
-
-        // "20/20" -> ["20", "20"] (removes the weird spacing and newlines)
-        splitGrades = gradeStr.split('/').map(x => x.replace(/[ \n]/g, ""));
-
-        if(splitGrades[0] === "--") {
-            return
-        }
-
-        points += parseInt(splitGrades[0]);
-        totalPoints += parseInt(splitGrades[1]);
-    });
-
-    var gradesObj = {
-        points: points,
-        totalPoints: totalPoints
-    };
-    console.log(gradesObj);
-    return gradesObj;
+    return grades;
 }
 
 chrome.runtime.onMessage.addListener(function (msg, sender, response) {

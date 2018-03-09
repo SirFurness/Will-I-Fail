@@ -14,9 +14,6 @@ function getPointsFromRow(row, grades) {
 
     var gradeStr = row.childNodes[23].innerText;
 
-    var pointsReceived;
-    var totalPoints;
-
     // "20/20" -> ["20", "20"]
     var splitGrades = gradeStr.split('/');
 

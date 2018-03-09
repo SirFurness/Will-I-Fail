@@ -1,0 +1,22 @@
+{
+    "manifest_version": 2,
+
+    "name": "Will I Fail?",
+    "description": "Allows you to add grades to powerschool and see their effects.",
+    "version": "1.0",
+
+    "background": {
+        "persistent": true,
+        "scripts": ["background.js"]
+    },
+
+    "content_scripts": [{
+        "matches": ["*://*powerschool*.com/*/scores.html*"],
+        "js": ["content.js"]
+    }],
+
+    "page_action": {
+        "default_title": "Will I Fail?",
+        "default_popup": "popup.html"
+    }
+}

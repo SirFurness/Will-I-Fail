@@ -8,12 +8,10 @@ function getPointsFromRow(row, grades) {
 
     var category = row.childNodes[3].innerText;
 
-    if(grades[category] === undefined) {
-        grades[category] = {
-            pointsReceived: 0,
-            totalPoints: 0
-        };
-    }
+    grades[category] = grades[category] || {
+        pointsReceived: 0,
+        totalPoints: 0
+    };
 
     var gradeStr = row.childNodes[23].innerText;
 

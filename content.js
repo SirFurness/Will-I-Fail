@@ -1,8 +1,8 @@
-chrome.runtime.sendMessage({
-    from: 'content',
-    subject: 'showPageAction'
-});
+function main() {
+    createTable(getGrades());
+}
 
+// modifies grades argument
 function getPointsFromRow(row, grades) {
 
     var category = row.childNodes[3].innerText;
@@ -22,8 +22,9 @@ function getPointsFromRow(row, grades) {
         grades[category].totalPoints += 0;
     }
     else {
-        grades[category].pointsReceived += parseInt(splitGrades[0]);
-        grades[category].totalPoints += parseInt(splitGrades[1]);
+        // unary plus converts it to a number
+        grades[category].pointsReceived += +splitGrades[0];
+        grades[category].totalPoints += +splitGrades[1];
     }
 }
 
@@ -34,6 +35,7 @@ function getRows() {
 }
 
 function getGrades() {
+    // is populated by getPointsFromRow
     var grades = {};
     getRows().forEach(row => getPointsFromRow(row, grades));
 

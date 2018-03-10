@@ -51,7 +51,13 @@ function createTable(grades) {
         scoreElem.textContent = pointsReceived + "/" + totalPoints;
 
         var pointPercentUnrounded = pointsReceived/totalPoints*100;
-        var pointPercent = Math.round(pointPercentUnrounded * 100) / 100 || "--";
+        var pointPercent = Math.round(pointPercentUnrounded * 100) / 100;
+
+        //handles case of totalPoints being 0 (dividing by 0)
+        //can't use OR operator as 0 is a possible pointPercent
+        if(isNaN(pointPercent)) {
+            pointPercent = "--";
+        }
 
         var percentElem = document.createElement("td");
         percentElem.setAttribute("align", "center");

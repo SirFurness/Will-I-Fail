@@ -41,9 +41,3 @@ function getGrades() {
 
     return grades;
 }
-
-chrome.runtime.onMessage.addListener(function (msg, sender, response) {
-    if ((msg.from === 'popup') && (msg.subject === 'grades')) {
-        response(getGrades());
-    }
-});

@@ -39,6 +39,8 @@ function createTable(grades) {
     table.appendChild(tbody);
 
     insertTable(table);
+
+    //controls input and updates score on changes
     observeWeightElems();
 }
 
@@ -54,6 +56,7 @@ function createRowFromCategory(category, grades) {
     //only allow numbers
     //weightElem.setAttribute("onKeypress", "if(event.keyCode<48||event.keyCode>57){return false;}");
     weightElem.setAttribute("class", "weightElem");
+    weightElem.setAttribute("category", category);
     weightElem.textContent = 100;
 
     var pointsReceived = grades[category].pointsReceived;
@@ -74,6 +77,8 @@ function createRowFromCategory(category, grades) {
 
     var percentElem = document.createElement("td");
     percentElem.setAttribute("align", "center");
+    percentElem.setAttribute("class", "percentElem");
+    percentElem.setAttribute("category", category);
     percentElem.textContent = pointPercent;
 
     row.appendChild(categoryElem);
@@ -89,6 +94,7 @@ function insertTable(table) {
 
     insertName(parentNode);
     parentNode.insertBefore(table, parentNode.children[6]);
+    insertScore(parentNode);
 }
 
 function insertName(parentNode) {
@@ -96,6 +102,14 @@ function insertName(parentNode) {
     name.textContent = "Will I Fail?";
 
     parentNode.insertBefore(name, parentNode.children[5]);
+}
+
+function insertScore(parentNode) {
+    var score = document.createElement("h3");
+    score.setAttribute("id", "score");
+    score.textContent = "Grade: " + calculateScore() + "%";
+
+    parentNode.insertBefore(score, parentNode.children[7]);
 }
 
 function observeWeightElems() {
@@ -137,4 +151,57 @@ function weightCharacterDataMutation(mutation) {
     if(newValue !== "" && newValue.match(/[^\d]/g)) {
         mutation.target.textContent = oldValue;
     }
+    else {
+        updateScore();
+    }
+}
+
+function getWeights() {
+    var weights = {};
+    document.querySelectorAll(".weightElem").forEach(weightElem => {
+        var category = weightElem.getAttribute("category");
+        weights[category] = +weightElem.textContent;
+    });
+
+    return weights;
+}
+
+function getPercents() {
+    var percents = {};
+    document.querySelectorAll(".percentElem").forEach(percentElem => {
+        var category = percentElem.getAttribute("category");
+        if(!isNaN(+percentElem.textContent)) {
+            percents[category] = +percentElem.textContent;
+        }
+    });
+
+    return percents;
+}
+
+function calculateScore() {
+    var percents = getPercents();
+    var weights = getWeights();
+
+    var receivedPercent = 0;
+    var totalPercent = 0;
+
+    var categories = Object.keys(percents);
+    categories.forEach(category => {
+        var percent = percents[category]/100;
+        var weight = weights[category]/100;
+
+        receivedPercent += percent*weight;
+        totalPercent += weight;
+    });
+
+    var unroundedScore = receivedPercent/totalPercent * 100;
+    var score = Math.round(unroundedScore * 100) / 100;
+
+    return score;
+}
+
+function updateScore() {
+    var score = calculateScore();
+
+    document.querySelector("#score").textContent = "Grade: " + score + "%";
 }

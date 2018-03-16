@@ -1,5 +1,4 @@
 function observeWeights(observer) {
-    console.log("observeWeights");
     addSelectorToNumericInputObserver(observer, ".weightElem", updateScore);
 }
 

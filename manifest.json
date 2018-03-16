@@ -7,6 +7,6 @@
 
     "content_scripts": [{
         "matches": ["*://*.powerschool.com/*/scores.html*"],
-        "js": ["waitForLoad.js", "content.js", "createTable.js"]
+        "js": ["waitForLoad.js", "observeNumericInput.js", "content.js", "createTable.js", "observeWeight.js"]
     }]
 }

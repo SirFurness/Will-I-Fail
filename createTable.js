@@ -40,8 +40,8 @@ function createTable(grades) {
 
     insertTable(table);
 
-    //controls input and updates score on changes
-    observeWeightElems();
+    var observer = createNumericInputObserver();
+    observeWeights(observer);
 }
 
 function createRowFromCategory(category, grades) {
@@ -112,96 +112,3 @@ function insertScore(parentNode) {
     parentNode.insertBefore(score, parentNode.children[7]);
 }
 
-function observeWeightElems() {
-    var config = {childList: true, characterData: true, characterDataOldValue: true, subtree: true};
-
-    var observer = new MutationObserver(weightMutationCallback);
-
-    document.querySelectorAll(".weightElem").forEach(elem => observer.observe(elem, config));
-}
-
-function weightMutationCallback(mutationList) {
-    mutationList.forEach(mutation => {
-        if(mutation.type === "childList") {
-            weightChildListMutation(mutation);
-        }
-        else if(mutation.type === "characterData") {
-            weightCharacterDataMutation(mutation);
-        }
-    });
-}
-
-function weightChildListMutation(mutation) {
-    if(mutation.target.childNodes.length < 2) {
-        return;
-    }
-
-    var oldData = "";
-    mutation.addedNodes.forEach(node => {
-        oldData += node.textContent;
-        mutation.target.removeChild(node);
-    });
-    mutation.target.childNodes[0].textContent = oldData + mutation.target.childNodes[0].textContent;
-}
-
-function weightCharacterDataMutation(mutation) {
-    var newValue = mutation.target.data;
-    var oldValue = mutation.oldValue;
-
-    if(newValue !== "" && newValue.match(/[^\d]/g)) {
-        mutation.target.textContent = oldValue;
-    }
-    else {
-        updateScore();
-    }
-}
-
-function getWeights() {
-    var weights = {};
-    document.querySelectorAll(".weightElem").forEach(weightElem => {
-        var category = weightElem.getAttribute("category");
-        weights[category] = +weightElem.textContent;
-    });
-
-    return weights;
-}
-
-function getPercents() {
-    var percents = {};
-    document.querySelectorAll(".percentElem").forEach(percentElem => {
-        var category = percentElem.getAttribute("category");
-        if(!isNaN(+percentElem.textContent)) {
-            percents[category] = +percentElem.textContent;
-        }
-    });
-
-    return percents;
-}
-
-function calculateScore() {
-    var percents = getPercents();
-    var weights = getWeights();
-
-    var receivedPercent = 0;
-    var totalPercent = 0;
-
-    var categories = Object.keys(percents);
-    categories.forEach(category => {
-        var percent = percents[category]/100;
-        var weight = weights[category]/100;
-
-        receivedPercent += percent*weight;
-        totalPercent += weight;
-    });
-
-    var unroundedScore = receivedPercent/totalPercent * 100;
-    var score = Math.round(unroundedScore * 100) / 100;
-
-    return score;
-}
-
-function updateScore() {
-    var score = calculateScore();
-
-    document.querySelector("#score").textContent = "Grade: " + score + "%";
-}

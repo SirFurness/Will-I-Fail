@@ -1,5 +1,7 @@
 function main() {
-    createTable(getGrades());
+    var grades = getGrades();
+    createTable(grades);
+    createNewScoreTable(Object.keys(grades));
 }
 
 // modifies grades argument

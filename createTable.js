@@ -39,9 +39,6 @@ function createTable(grades) {
     table.appendChild(tbody);
 
     insertTable(table);
-
-    var observer = createNumericInputObserver();
-    observeWeights(observer);
 }
 
 function createRowFromCategory(category, grades) {
@@ -58,6 +55,9 @@ function createRowFromCategory(category, grades) {
     weightElem.setAttribute("class", "weightElem");
     weightElem.setAttribute("category", category);
     weightElem.textContent = 100;
+
+    weightElem.addEventListener("keydown", onlyNumbers);
+    weightElem.addEventListener("keyup", updateScore);
 
     var pointsReceived = grades[category].pointsReceived;
     var totalPoints = grades[category].totalPoints;
@@ -87,6 +87,12 @@ function createRowFromCategory(category, grades) {
     row.appendChild(percentElem);
 
     return row;
+}
+
+function onlyNumbers(event) {
+    if(((event.which != 46 && event.which != 190) || this.textContent.indexOf('.') != -1) && (event.which < 48 || event.which > 57) && event.which != 8 && event.which != 127 && event.which != 37 && event.which != 39) {
+        event.preventDefault();
+    }
 }
 
 function insertTable(table) {

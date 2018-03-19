@@ -11,10 +11,10 @@ function createNewScoreTable(categories) {
     categoryCol.textContent = "Category";
 
     var pointsReceivedCol = document.createElement("th");
-    pointsReceivedCol.textContent = "Points Received";
+    pointsReceivedCol.textContent = "Points Received (Click to Edit)";
 
     var totalPointsCol = document.createElement("th");
-    totalPointsCol.textContent = "Total Points";
+    totalPointsCol.textContent = "Total Points (Click to Edit)";
 
     headerRow.appendChild(categoryCol);
     headerRow.appendChild(pointsReceivedCol);

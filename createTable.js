@@ -1,4 +1,4 @@
-function createTable(grades) {
+function createTable(grades, weights) {
     var table = document.createElement("table");
     table.setAttribute("class", "zebra grid table");
 
@@ -31,7 +31,7 @@ function createTable(grades) {
 
     var categories = Object.keys(grades);
     categories.forEach(function(category) {
-        var row = createRowFromCategory(category, grades);
+        var row = createRowFromCategory(category, grades, weights);
 
         tbody.appendChild(row);
     });
@@ -41,7 +41,7 @@ function createTable(grades) {
     insertTable(table);
 }
 
-function createRowFromCategory(category, grades) {
+function createRowFromCategory(category, grades, weights) {
     var row = document.createElement("tr");
 
     var categoryElem = document.createElement("td");
@@ -53,6 +53,9 @@ function createRowFromCategory(category, grades) {
     weightElem.setAttribute("class", "weightElem");
     weightElem.setAttribute("category", category);
     weightElem.textContent = 100;
+    if(category in weights) {
+        weightElem.textContent = weights[category];
+    }
 
     weightElem.addEventListener("keydown", onlyNumbers);
     weightElem.addEventListener("keyup", updateScore);
@@ -103,6 +106,8 @@ function insertTable(table) {
     insertName(parentNode);
     parentNode.insertBefore(table, parentNode.children[6]);
     insertScore(parentNode);
+
+    parentNode.insertBefore(document.createElement("br"), parentNode.children[8]);
 }
 
 function insertName(parentNode) {

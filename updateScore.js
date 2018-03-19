@@ -15,7 +15,6 @@ function getWeights() {
 //use scoreElem instead of percentElem so that the numerator and denominator can be modified
 function getPercents() {
     var percents = {};
-    console.log(addScore);
     document.querySelectorAll(".scoreElem").forEach(scoreElem => {
         var category = scoreElem.getAttribute("category");
 

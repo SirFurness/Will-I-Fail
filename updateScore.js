@@ -1,3 +1,5 @@
+//NewScoreTable modifies this
+//{category: {pointsReceived: , totalPoints: }, otherCategory...}
 var addScore = {};
 
 function getWeights() {
@@ -21,6 +23,7 @@ function getPercents() {
         var pointsReceived = +scoreElem.getAttribute("pointsReceived");
         var totalPoints = +scoreElem.getAttribute("totalPoints");
 
+        //get the additional points from the NewScoreTable
         if(category in addScore) {
             pointsReceived += addScore[category].pointsReceived;
             totalPoints += addScore[category].totalPoints;

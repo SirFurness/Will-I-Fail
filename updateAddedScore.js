@@ -37,6 +37,7 @@ function updateAddedScore() {
     var categories = Object.keys(totalPoints);
     categories.forEach(category => {
         if(category in pointsReceived && category in totalPoints) {
+            //addScore is a global object, used in updateScore.js
             addScore[category] = {};
             addScore[category].pointsReceived = pointsReceived[category];
             addScore[category].totalPoints = totalPoints[category];

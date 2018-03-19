@@ -94,12 +94,6 @@ function createRowFromCategory(category, grades, weights) {
     return row;
 }
 
-function onlyNumbers(event) {
-    if(((event.which != 46 && event.which != 190) || this.textContent.indexOf('.') != -1) && (event.which < 48 || event.which > 57) && event.which != 8 && event.which != 127 && event.which != 37 && event.which != 39) {
-        event.preventDefault();
-    }
-}
-
 function insertTable(table) {
     var parentNode = document.getElementsByClassName("box-round")[0];
 

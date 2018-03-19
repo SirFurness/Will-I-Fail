@@ -14,7 +14,6 @@ function getWeights() {
     return weights;
 }
 
-//use scoreElem instead of percentElem so that the numerator and denominator can be modified
 function getPercents() {
     var percents = {};
     document.querySelectorAll(".scoreElem").forEach(scoreElem => {

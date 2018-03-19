@@ -1,3 +1,5 @@
+var addScore = {};
+
 function getWeights() {
     var weights = {};
     document.querySelectorAll(".weightElem").forEach(weightElem => {
@@ -10,12 +12,25 @@ function getWeights() {
     return weights;
 }
 
+//use scoreElem instead of percentElem so that the numerator and denominator can be modified
 function getPercents() {
     var percents = {};
-    document.querySelectorAll(".percentElem").forEach(percentElem => {
-        var category = percentElem.getAttribute("category");
-        if(!isNaN(+percentElem.textContent)) {
-            percents[category] = +percentElem.textContent;
+    console.log(addScore);
+    document.querySelectorAll(".scoreElem").forEach(scoreElem => {
+        var category = scoreElem.getAttribute("category");
+
+        var pointsReceived = +scoreElem.getAttribute("pointsReceived");
+        var totalPoints = +scoreElem.getAttribute("totalPoints");
+
+        if(category in addScore) {
+            pointsReceived += addScore[category].pointsReceived;
+            totalPoints += addScore[category].totalPoints;
+        }
+
+        var percent = pointsReceived/totalPoints*100;
+
+        if(!isNaN(percent)) {
+            percents[category] = percent;
         }
     });
 
@@ -31,11 +46,13 @@ function calculateScore() {
 
     var categories = Object.keys(weights);
     categories.forEach(category => {
-        var percent = percents[category]/100;
-        var weight = weights[category]/100;
+        if(category in percents && category in weights) {
+            var percent = percents[category]/100;
+            var weight = weights[category]/100;
 
-        receivedPercent += percent*weight;
-        totalPercent += weight;
+            receivedPercent += percent*weight;
+            totalPercent += weight;
+        }
     });
 
     var unroundedScore = receivedPercent/totalPercent * 100;

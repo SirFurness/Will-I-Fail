@@ -50,8 +50,6 @@ function createRowFromCategory(category, grades) {
     var weightElem = document.createElement("td");
     weightElem.setAttribute("contenteditable", "true");
     weightElem.setAttribute("align", "center");
-    //only allow numbers
-    //weightElem.setAttribute("onKeypress", "if(event.keyCode<48||event.keyCode>57){return false;}");
     weightElem.setAttribute("class", "weightElem");
     weightElem.setAttribute("category", category);
     weightElem.textContent = 100;
@@ -64,6 +62,10 @@ function createRowFromCategory(category, grades) {
 
     var scoreElem = document.createElement("td");
     scoreElem.setAttribute("align", "center");
+    scoreElem.setAttribute("class", "scoreElem");
+    scoreElem.setAttribute("category", category);
+    scoreElem.setAttribute("pointsReceived", pointsReceived);
+    scoreElem.setAttribute("totalPoints", totalPoints);
     scoreElem.textContent = pointsReceived + "/" + totalPoints;
 
     var pointPercentUnrounded = pointsReceived/totalPoints*100;

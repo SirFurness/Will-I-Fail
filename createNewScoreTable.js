@@ -39,17 +39,17 @@ function createNewScoreTable(categories) {
         pointsReceivedElem.textContent = 0;
 
         pointsReceivedElem.addEventListener("keydown", onlyNumbers);
-        pointsReceivedElem.addEventListener("keyup", updatePointsReceived);
+        pointsReceivedElem.addEventListener("keyup", updateAddedScore);
 
         var totalPointsElem = document.createElement("td");
         totalPointsElem.setAttribute("contenteditable", "true");
         totalPointsElem.setAttribute("align", "center");
-        totalPointsElem.setAttribute("class", "totalPoints");
+        totalPointsElem.setAttribute("class", "totalPointsElem");
         totalPointsElem.setAttribute("category", category);
         totalPointsElem.textContent = 0;
 
         totalPointsElem.addEventListener("keydown", onlyNumbers);
-        totalPointsElem.addEventListener("keyup", updateTotalPoints);
+        totalPointsElem.addEventListener("keyup", updateAddedScore);
 
         row.appendChild(categoryElem);
         row.appendChild(pointsReceivedElem);
@@ -61,14 +61,6 @@ function createNewScoreTable(categories) {
     table.appendChild(tbody);
 
     insertNewScoreTable(table);
-}
-
-function updatePointsReceived(event) {
-    
-}
-
-function updateTotalPoints(event) {
-    
 }
 
 function insertNewScoreTable(table) {

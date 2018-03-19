@@ -7,7 +7,6 @@ function getPointsReceived() {
         var category = elem.getAttribute("category");
 
         if(!isNaN(+elem.textContent)) {
-            console.log(+elem.textContent);
             pointsReceived[category] = +elem.textContent;
         }
     });

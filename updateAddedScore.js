@@ -7,6 +7,7 @@ function getPointsReceived() {
         var category = elem.getAttribute("category");
 
         if(!isNaN(+elem.textContent)) {
+            console.log(+elem.textContent);
             pointsReceived[category] = +elem.textContent;
         }
     });
@@ -35,9 +36,11 @@ function updateAddedScore() {
 
     var categories = Object.keys(totalPoints);
     categories.forEach(category => {
-        addScore[category] = {};
-        addScore[category].pointsReceived = pointsReceived[category];
-        addScore[category].totalPoints = totalPoints[category];
+        if(category in pointsReceived && category in totalPoints) {
+            addScore[category] = {};
+            addScore[category].pointsReceived = pointsReceived[category];
+            addScore[category].totalPoints = totalPoints[category];
+        }
     });
 
     updateScore();

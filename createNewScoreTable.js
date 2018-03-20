@@ -66,5 +66,5 @@ function createNewScoreTable(categories) {
 function insertNewScoreTable(table) {
     var parentNode = document.getElementsByClassName("box-round")[0];
 
-    parentNode.insertBefore(table, parentNode.children[7]);
+    parentNode.insertBefore(table, document.querySelector("#weightTable").nextSibling);
 }
